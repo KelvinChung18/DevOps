@@ -8,10 +8,14 @@ pipeline {
             }
         }
         stage('test JDK') {
-           def javaHome = tool 'jdk8';
-        withEnv(["JAVA_HOME=${javaHome}"]) {
-            sh "java -version"
+            steps {
+                script {
+                    def javaHome = tool 'jdk8'  // 获取 JDK8 的路径
+                    withEnv(["JAVA_HOME=${javaHome}"]) {
+                        sh "java -version"
+                    }
+                }
+            }
         }
-        }  
     }
 }
