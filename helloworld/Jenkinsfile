@@ -16,6 +16,7 @@ pipeline {
                         "JAVA_HOME=${javaHome}",
                         "PATH=${javaHome}/bin:${env.PATH}"  // 将 JDK 8 的 bin 目录添加到 PATH 中
                     ]) {
+                        sh "which java"  // 显示当前 `java` 命令的路径
                         sh "java -version"
                     }
                 }
