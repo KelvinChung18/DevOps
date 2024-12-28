@@ -12,7 +12,10 @@ pipeline {
                 script {
                     def javaHome = tool 'jdk8'  // 获取 JDK8 的路径
                     echo "JAVA_HOME: ${javaHome}"  // 输出 javaHome 变量的值
-                    withEnv(["JAVA_HOME=${javaHome}"]) {
+                    withEnv([
+                        "JAVA_HOME=${javaHome}",
+                        "PATH=${javaHome}/bin:${env.PATH}"  // 将 JDK 8 的 bin 目录添加到 PATH 中
+                    ]) {
                         sh "java -version"
                     }
                 }
