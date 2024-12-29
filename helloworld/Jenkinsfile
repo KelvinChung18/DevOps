@@ -14,6 +14,7 @@ pipeline {
                     echo "JAVA_HOME: ${javaHome}"  // 输出 javaHome 变量的值
                     withEnv([
                         "JAVA_HOME=${javaHome}"
+                         "PATH=${javaHome}/bin:${env.PATH}" 
                     ]) {
                         sh "java -version"
                     }
