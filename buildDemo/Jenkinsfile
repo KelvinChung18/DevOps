@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+        stage('test JDK') {
+            steps {
+                script {
+                    def javaHome = tool 'jdk8'  // 获取 JDK8 的路径
+                    echo "JAVA_HOME: ${javaHome}"  // 输出 javaHome 变量的值
+                    withEnv([
+                        "JAVA_HOME=${javaHome}",
+                         "PATH=${javaHome}/bin:${env.PATH}" 
+                    ]) {
+                        sh "java -version"
+                    }
+                }
+            }
+        }
+
+        stage('maven build') {
+           def javaHome = tool 'jdk8';
+           withEnv(["JAVA_HOME=${javaHome}"]) { 
+              sh "java -version" 
+              sh 'mvn clean install' 
+          }
+        }    
+        
+    }
+}
