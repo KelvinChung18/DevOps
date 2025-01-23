@@ -1,3 +1,5 @@
+package com.example.helloworld.controller
+
 pipeline {
     agent any
 
@@ -23,13 +25,17 @@ pipeline {
         }
 
         stage('maven build') {
-            def javaHome = tool 'jdk8';
-            withEnv([
-                    "JAVA_HOME=${javaHome}",
-                    "PATH=${javaHome}/bin:${env.PATH}"
-            ]) {
-                sh "java -version"
-                sh 'mvn clean install'
+            steps {
+                script {
+                    def javaHome = tool 'jdk8';
+                    withEnv([
+                            "JAVA_HOME=${javaHome}",
+                            "PATH=${javaHome}/bin:${env.PATH}"
+                    ]) {
+                        sh "java -version"
+                        sh 'mvn clean install'
+                    }
+                }
             }
         }
 
