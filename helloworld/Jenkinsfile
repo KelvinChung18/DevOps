@@ -22,13 +22,13 @@ pipeline {
             }
         }
 
-        stage('maven build') {
-           def javaHome = tool 'jdk8';
-           withEnv(["JAVA_HOME=${javaHome}"]) { 
-              sh "java -version" 
-              sh 'mvn clean install' 
-          }
-        }    
+       // stage('maven build') {
+        //   def javaHome = tool 'jdk8';
+       //    withEnv(["JAVA_HOME=${javaHome}"]) { 
+      //        sh "java -version" 
+     //         sh 'mvn clean install' 
+      //    }
+    //    }    
         
     }
 }
