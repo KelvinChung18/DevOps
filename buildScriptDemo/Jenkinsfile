@@ -1,4 +1,18 @@
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 node {
+    def jobNameSegs = env.JOB_NAME.split('/')
+    def appName
+    if (jobNameSegs.length == 1) {
+      appName = jobNameSegs[0]
+    } else {
+      appName = jobNameSegs[jobNameSegs.length - 2]
+    }
+    def appProfile = env.BRANCH_NAME == "main" ? "live" : "trunk"
+    def time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
+    def dockerImage = "docker.kelvin.cn/kelvin/${appName}:${env.BRANCH_NAME}-${time}"
+
     stage('Hello') {
         echo 'Hello World'
     }
@@ -24,4 +38,11 @@ node {
             sh 'mvn clean install'
         }
     }
+
+    stage('Docker Build') {
+        def dockerfile = "dockerfile/Dockerfile"
+        sh "docker build -t ${dockerImage} -f ${dockerfile} ."
+    }
+
+    
 }
